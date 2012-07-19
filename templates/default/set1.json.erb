@@ -1,0 +1,91 @@
+
+{
+ "servers": [
+<% node['jmxtrans']['servers'].each do |server_name| -%>
+  {
+   "numQueryThreads": 4,
+   "host": "<%= server_name %>",
+   "username": "controlRole",
+   "password": "readwrite",
+   "port": 8999,
+   "queries": [
+    {
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name"
+        ],
+        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
+        "port": <%= node['jmxtrans']['graphite']['port'] %>
+       }
+      }
+     ],
+     "resultAlias": "memorypool",
+     "obj": "java.lang:type=MemoryPool,name=*",
+     "attr": [
+      "Usage"
+     ]
+    },
+    {
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name"
+        ],
+        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
+        "port": <%= node['jmxtrans']['graphite']['port'] %>
+       }
+      }
+     ],
+     "resultAlias": "gc",
+     "obj": "java.lang:type=GarbageCollector,name=*",
+     "attr": [
+      "CollectionCount",
+      "CollectionTime"
+     ]
+    },
+     "resultAlias": "sys",
+     "obj": "java.lang:type=OperatingSystem",
+     "attr": [
+      "SystemLoadAverage",
+      "AvailableProcessors",
+      "TotalPhysicalMemorySize",
+      "FreePhysicalMemorySize",
+      "TotalSwapSpaceSize",
+      "FreeSwapSpaceSize",
+      "OpenFileDescriptorCount",
+      "MaxFileDescriptorCount"
+     ]
+    },
+    {
+     "outputWriters": [
+      {
+       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+       "settings": {
+        "typeNames": [
+         "name"
+        ],
+        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
+        "port": <%= node['jmxtrans']['graphite']['port'] %>
+       }
+      }
+     ],
+     "resultAlias": "threads",
+     "obj": "java.lang:type=Threading",
+     "attr": [
+      "DaemonThreadCount",
+      "PeakThreadCount",
+      "ThreadCount",
+      "TotalStartedThreadCount"
+     ]
+    }
+   ]
+  }
+
+<% end -%>
+ ]
+}

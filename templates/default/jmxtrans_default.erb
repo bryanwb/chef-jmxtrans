@@ -1,0 +1,10 @@
+export JAR_FILE='<%= "#{node['jmxtrans']['home']}/jmxtrans-all.jar" %>'
+export LOG_DIR="/var/log/jmxtrans"
+export SECONDS_BETWEEN_RUNS=<%= default['jmxtrans']['run_interval'] %>
+export JSON_DIR=<%= "#{node['jmxtrans']['home']}/json" %>
+export HEAP_SIZE=<%= #{node['jmxtrans']['heap_size'] %>
+export NEW_SIZE=64
+export CPU_CORES=<%= node['cpu']['total'] %>
+export NEW_RATIO=8
+export LOG_LEVEL=debug
+
