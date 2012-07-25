@@ -10,7 +10,7 @@
 include_recipe "logrotate"
 
 if platform_family? "debian"
-  init_script = "jmxtrans.init.deb.erb"
+  init_script_file = "jmxtrans.init.deb.erb"
 elsif "rhel"
   init_script_file = "jmxtrans.init.el.erb"
 end
