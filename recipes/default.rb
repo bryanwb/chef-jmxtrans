@@ -32,6 +32,7 @@ template "/etc/init.d/jmxtrans" do
   owner "root"
   group "root"
   mode  "0755" 
+  variables( :name => "jmxtrans")
  notifies :restart, "service[jmxtrans]"
 end
 
