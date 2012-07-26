@@ -23,7 +23,8 @@
          "name"
         ],
         "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-        "port": <%= node['jmxtrans']['graphite']['port'] %>
+        "port": <%= node['jmxtrans']['graphite']['port'] %>,
+        "rootPrefix": "jmx"
        }
       }
      ],
@@ -42,7 +43,8 @@
          "name"
         ],
         "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-        "port": <%= node['jmxtrans']['graphite']['port'] %>
+        "port": <%= node['jmxtrans']['graphite']['port'] %>,
+        "rootPrefix": "jmx"
        }
       }
      ],
@@ -62,7 +64,8 @@
          "name"
         ],
         "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-        "port": <%= node['jmxtrans']['graphite']['port'] %>
+        "port": <%= node['jmxtrans']['graphite']['port'] %>,
+        "rootPrefix": "jmx"
        }
       }
      ],
@@ -82,7 +85,8 @@
        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
         "port": <%= node['jmxtrans']['graphite']['port'] %>,
  
-          "typeNames" : [ "name" ]      
+          "typeNames" : [ "name" ],
+        "rootPrefix": "jmx"      
         }
       } ],
       "obj" : "Catalina:type=ThreadPool,name=*",
@@ -96,7 +100,8 @@
             "host": "<%= node['jmxtrans']['graphite']['host'] %>",
                    "port": <%= node['jmxtrans']['graphite']['port'] %>,
  
-          "typeNames" : [ "name" ]
+          "typeNames" : [ "name" ],
+        "rootPrefix": "jmx"
         }
       } ],
       "obj" : "Catalina:type=DataSource,class=javax.sql.DataSource,name=*",
