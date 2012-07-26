@@ -18,8 +18,8 @@ end
 user node['jmxtrans']['user']
 
 ark "jmxtrans" do
-  url node[:jmxtrans][:url]
-  checksum node[:jmxtrans][:checksum]
+  url node['jmxtrans']['url']
+  checksum node['jmxtrans']['checksum']
   version "latest"
   prefix_root '/opt'
   prefix_home '/opt'
