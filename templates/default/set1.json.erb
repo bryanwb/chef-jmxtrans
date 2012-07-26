@@ -1,13 +1,13 @@
 
 {
  "servers": [
-<% node['jmxtrans']['servers'].each do |server_name| -%>
+<% node['jmxtrans']['servers'].each do |server_name,port| -%>
   {
    "numQueryThreads": 4,
    "host": "<%= server_name %>",
    "username": "controlRole",
    "password": "readwrite",
-   "port": 8999,
+   "port": <%= port %>,
    "queries": [
     {
      "outputWriters": [

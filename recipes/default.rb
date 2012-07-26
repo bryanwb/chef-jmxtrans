@@ -20,7 +20,7 @@ user node['jmxtrans']['user']
 ark "jmxtrans" do
   url node[:jmxtrans][:url]
   checksum node[:jmxtrans][:checksum]
-  version "250"
+  version "latest"
   prefix_root '/opt'
   prefix_home '/opt'
   owner node['jmxtrans']['user']
