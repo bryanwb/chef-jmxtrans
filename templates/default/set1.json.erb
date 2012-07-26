@@ -1,7 +1,12 @@
 
 {
  "servers": [
-<% node['jmxtrans']['servers'].each do |server_name,port| -%>
+
+<% node['jmxtrans']['servers'].each_with_index do |server_params,index| -%>
+   <% server_name,port = server_params -%>
+<% unless index == 0 -%>
+   ,
+<% end -%>
   {
    "numQueryThreads": 4,
    "host": "<%= server_name %>",
@@ -48,19 +53,6 @@
       "CollectionTime"
      ]
     },
-     "resultAlias": "sys",
-     "obj": "java.lang:type=OperatingSystem",
-     "attr": [
-      "SystemLoadAverage",
-      "AvailableProcessors",
-      "TotalPhysicalMemorySize",
-      "FreePhysicalMemorySize",
-      "TotalSwapSpaceSize",
-      "FreeSwapSpaceSize",
-      "OpenFileDescriptorCount",
-      "MaxFileDescriptorCount"
-     ]
-    },
     {
      "outputWriters": [
       {
@@ -82,6 +74,34 @@
       "ThreadCount",
       "TotalStartedThreadCount"
      ]
+    },
+{
+      "outputWriters" : [ {
+        "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        "settings" : {
+       "host": "<%= node['jmxtrans']['graphite']['host'] %>",
+        "port": <%= node['jmxtrans']['graphite']['port'] %>,
+ 
+          "typeNames" : [ "name" ]      
+        }
+      } ],
+      "obj" : "Catalina:type=ThreadPool,name=*",
+      "resultAlias": "connectors",
+      "attr" : [ "currentThreadCount", "currentThreadsBusy", "" ]
+    },
+{
+      "outputWriters" : [ {
+        "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        "settings" : {
+            "host": "<%= node['jmxtrans']['graphite']['host'] %>",
+                   "port": <%= node['jmxtrans']['graphite']['port'] %>,
+ 
+          "typeNames" : [ "name" ]
+        }
+      } ],
+      "obj" : "Catalina:type=DataSource,class=javax.sql.DataSource,name=*",
+      "resultAlias": "datasources",
+      "attr" : [ "numActive", "numIdle" ]
     }
    ]
   }

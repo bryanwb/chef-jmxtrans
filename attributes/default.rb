@@ -1,5 +1,5 @@
 default['jmxtrans']['install_prefix'] = '/opt'
-default['jmxtrans']['home'] = "#{node['jmxtrans']['install_prefix']}/jmxtrans"
+default['jmxtrans']['home'] = "#{default['jmxtrans']['install_prefix']}/jmxtrans"
 default['jmxtrans']['log_dir'] = '/var/log/jmxtrans'
 default['jmxtrans']['user'] = 'jmxtrans'
 default['jmxtrans']['url'] = 'https://github.com/downloads/lookfirst/jmxtrans/jmxtrans-20120525-210643-4e956b1144.zip'

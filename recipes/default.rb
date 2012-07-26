@@ -9,9 +9,9 @@
 
 include_recipe "logrotate"
 
-if platform_family? "debian"
+if platform_family?("debian") 
   init_script = "jmxtrans.init.deb.erb"
-elsif "rhel"
+elsif platform_family?("rhel")
   init_script_file = "jmxtrans.init.el.erb"
 end
 
@@ -53,6 +53,14 @@ directory "#{node['jmxtrans']['home']}/json" do
   owner node['jmxtrans']['user']
   group node['jmxtrans']['user']
   mode  "0755"
+end
+
+template "#{node['jmxtrans']['home']}/json/set1.json" do
+  source "set1.json.erb"
+  owner node['jmxtrans']['user']
+  group node['jmxtrans']['user']
+  mode  "0755"
+  notifies :restart, "service[jmxtrans]"
 end
 
 
