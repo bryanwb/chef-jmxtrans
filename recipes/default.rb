@@ -9,7 +9,7 @@
 
 include_recipe "logrotate"
 
-if platform_family?("debian") 
+if platform_family?("debian")
   init_script = "jmxtrans.init.deb.erb"
 elsif platform_family?("rhel")
   init_script_file = "jmxtrans.init.el.erb"
@@ -18,8 +18,8 @@ end
 user node['jmxtrans']['user']
 
 ark "jmxtrans" do
-  url node[:jmxtrans][:url]
-  checksum node[:jmxtrans][:checksum]
+  url node['jmxtrans']['url']
+  checksum node['jmxtrans']['checksum']
   version "latest"
   prefix_root '/opt'
   prefix_home '/opt'
@@ -31,7 +31,7 @@ template "/etc/init.d/jmxtrans" do
   source init_script_file
   owner "root"
   group "root"
-  mode  "0755" 
+  mode  "0755"
  notifies :restart, "service[jmxtrans]"
 end
 

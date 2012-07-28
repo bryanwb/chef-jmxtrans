@@ -84,9 +84,9 @@
         "settings" : {
        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
         "port": <%= node['jmxtrans']['graphite']['port'] %>,
- 
+
           "typeNames" : [ "name" ],
-        "rootPrefix": "jmx"      
+        "rootPrefix": "jmx"
         }
       } ],
       "obj" : "Catalina:type=ThreadPool,name=*",
@@ -99,7 +99,7 @@
         "settings" : {
             "host": "<%= node['jmxtrans']['graphite']['host'] %>",
                    "port": <%= node['jmxtrans']['graphite']['port'] %>,
- 
+
           "typeNames" : [ "name" ],
         "rootPrefix": "jmx"
         }
