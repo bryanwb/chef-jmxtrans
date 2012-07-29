@@ -1,15 +1,15 @@
 #!/bin/sh
 #
 # chkconfig: - 90 60
-# pidfile: /var/run/jmxtrans.pid
-# config: /etc/default/jmxtrans
+# pidfile: /var/run/<%= @name %>.pid
+# config: /etc/default/<%= @name %>
 #
 ### BEGIN INIT INFO
-# Provides: jmxtrans
+# Provides: <%= @name %>
 # Required-Start: $local_fs $remote_fs $network $named
 # Required-Stop: $local_fs $remote_fs $network
-# Short-Description: run jmxtrans daemon
-# Description: jmxtrans jmxtrans is very powerful tool which reads json
+# Short-Description: run <%= @name %> daemon
+# Description: <%= @name %> is a very powerful tool which reads json
 #              configuration files of servers/ports and jmx domains - attributes - types
 #              and then outputs the data in whatever format you want via special 'Writer' objects which you can code up yourself.
 #              It does this with a very efficient engine design that will scale to querying thousands of machines.
@@ -17,17 +17,18 @@
 
 # Source function library.
 . /etc/rc.d/init.d/functions
+NAME=<%= @name %>
 
-if [ -f /etc/default/jmxtrans ]; then
-    . /etc/default/jmxtrans
+if [ -f /etc/default/$NAME ]; then
+    . /etc/default/$NAME
 fi
 
 RETVAL=0
-prog="jmxtrans"
-user="jmxtrans"
+prog=$NAME
+user=$NAME
 exec='<%="#{node['jmxtrans']['home']}/jmxtrans.sh" %>'
-lockfile=/var/lock/subsys/jmxtrans
-config=/etc/default/jmxtrans
+lockfile=/var/lock/subsys/<%= @name %>
+config=/etc/default/<%= @name %>
 
 start() {
     echo -n $"Starting $prog: "

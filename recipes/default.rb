@@ -10,7 +10,7 @@
 include_recipe "logrotate"
 
 if platform_family?("debian")
-  init_script = "jmxtrans.init.deb.erb"
+  init_script_file = "jmxtrans.init.deb.erb"
 elsif platform_family?("rhel")
   init_script_file = "jmxtrans.init.el.erb"
 end
@@ -43,7 +43,8 @@ template "/etc/init.d/jmxtrans" do
   owner "root"
   group "root"
   mode  "0755"
- notifies :restart, "service[jmxtrans]"
+  variables( :name => 'jmxtrans' )
+  notifies :restart, "service[jmxtrans]"
 end
 
 template "/etc/default/jmxtrans" do
