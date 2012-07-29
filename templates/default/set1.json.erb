@@ -2,115 +2,40 @@
 {
  "servers": [
 
-<% node['jmxtrans']['servers'].each_with_index do |server_params,index| -%>
-   <% server_name,port = server_params -%>
+<% @servers.each_with_index do |server,index| -%>
 <% unless index == 0 -%>
    ,
 <% end -%>
   {
-   "numQueryThreads": 4,
-   "host": "<%= server_name %>",
-   "username": "controlRole",
-   "password": "readwrite",
-   "port": <%= port %>,
+   "numQueryThreads": 2,
+   "host": "<%= server['name'] %>",
+   "username": "<%= server['username'] %>",
+   "password": "<%= server['password'] %>",
+   "port": <%= server['port'] %>,
    "queries": [
+    <% server['queries'].each_with_index do |query,index| -%>
+        <% unless index == 0 -%>
+        ,
+        <% end -%>
     {
      "outputWriters": [
       {
        "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
        "settings": {
-        "typeNames": [
-         "name"
-        ],
-        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-        "port": <%= node['jmxtrans']['graphite']['port'] %>,
-        "rootPrefix": "jmx"
+        "typeNames": [   "name" ],
+        "host": "<%= @graphite_host %>",
+        "port": <%= @graphite_port %>,
+        "rootPrefix": "<%= @root_prefix %>"
        }
       }
      ],
-     "resultAlias": "memorypool",
-     "obj": "java.lang:type=MemoryPool,name=*",
-     "attr": [
-      "Usage"
-     ]
-    },
-    {
-     "outputWriters": [
-      {
-       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
-       "settings": {
-        "typeNames": [
-         "name"
-        ],
-        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-        "port": <%= node['jmxtrans']['graphite']['port'] %>,
-        "rootPrefix": "jmx"
-       }
-      }
-     ],
-     "resultAlias": "gc",
-     "obj": "java.lang:type=GarbageCollector,name=*",
-     "attr": [
-      "CollectionCount",
-      "CollectionTime"
-     ]
-    },
-    {
-     "outputWriters": [
-      {
-       "@class": "com.googlecode.jmxtrans.model.output.GraphiteWriter",
-       "settings": {
-        "typeNames": [
-         "name"
-        ],
-        "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-        "port": <%= node['jmxtrans']['graphite']['port'] %>,
-        "rootPrefix": "jmx"
-       }
-      }
-     ],
-     "resultAlias": "threads",
-     "obj": "java.lang:type=Threading",
-     "attr": [
-      "DaemonThreadCount",
-      "PeakThreadCount",
-      "ThreadCount",
-      "TotalStartedThreadCount"
-     ]
-    },
-{
-      "outputWriters" : [ {
-        "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
-        "settings" : {
-       "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-        "port": <%= node['jmxtrans']['graphite']['port'] %>,
- 
-          "typeNames" : [ "name" ],
-        "rootPrefix": "jmx"      
-        }
-      } ],
-      "obj" : "Catalina:type=ThreadPool,name=*",
-      "resultAlias": "connectors",
-      "attr" : [ "currentThreadCount", "currentThreadsBusy", "" ]
-    },
-{
-      "outputWriters" : [ {
-        "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
-        "settings" : {
-            "host": "<%= node['jmxtrans']['graphite']['host'] %>",
-                   "port": <%= node['jmxtrans']['graphite']['port'] %>,
- 
-          "typeNames" : [ "name" ],
-        "rootPrefix": "jmx"
-        }
-      } ],
-      "obj" : "Catalina:type=DataSource,class=javax.sql.DataSource,name=*",
-      "resultAlias": "datasources",
-      "attr" : [ "numActive", "numIdle" ]
+     "resultAlias": "<%= query['result_alias'] %>",
+     "obj": "<%= query['obj'] %>",
+     "attr": <%= query['attr'].to_s %> 
     }
-   ]
-  }
-
+    <% end -%>
+    ]
+ }
 <% end -%>
- ]
+] 
 }

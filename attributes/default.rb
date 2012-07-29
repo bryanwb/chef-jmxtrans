@@ -10,3 +10,40 @@ default['jmxtrans']['graphite']['host'] = 'graphite'
 default['jmxtrans']['graphite']['port'] = '2003'
 
 default['jmxtrans']['servers'] = []
+default['jmxtrans']['root_prefix'] = "jmx"
+default['jmxtrans']['default_queries'] = {
+  'jvm' => [
+            {
+              "result_alias" => "memorypool",
+              "obj" => "java.lang:type=MemoryPool,name=*",
+              "attr" => [ "Usage" ]
+            },
+            {
+              "result_alias" => "gc",
+              "obj" => "java.lang:type=GarbageCollector,name=*",
+              "attr" => [ "CollectionCount", "CollectionTime" ]
+            },
+            {
+            "result_alias" => "threads",
+            "obj" => "java.lang:type=Threading",
+            "attr" => [
+                       "DaemonThreadCount",
+                       "PeakThreadCount",
+                       "ThreadCount",
+                       "TotalStartedThreadCount"
+                      ]
+            }
+           ],
+  'tomcat' => [
+               {
+                 'obj' => "Catalina:type=ThreadPool,name=*",
+                 'result_alias' => "connectors",
+                 'attr' => [ "currentThreadCount", "currentThreadsBusy", "" ]
+               },
+               {  "obj" => "Catalina:type=DataSource,class=javax.sql.DataSource,name=*",
+                 "result_alias" => "datasources",
+                 "attr" => [ "NumActive", "NumIdle" ]
+               }
+              ]
+}
+

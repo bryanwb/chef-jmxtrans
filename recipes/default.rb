@@ -17,6 +17,17 @@ end
 
 user node['jmxtrans']['user']
 
+# merge stock jvm queries w/ container specific ones into single array
+servers = node['jmxtrans']['servers']
+servers.each do |server|
+  server['queries'] = node['jmxtrans']['default_queries']['jvm']
+  case server['type']
+  when 'tomcat'
+    server['queries'] << node['jmxtrans']['default_queries']['tomcat']
+  end
+  server['queries'].flatten!
+end
+
 ark "jmxtrans" do
   url node[:jmxtrans][:url]
   checksum node[:jmxtrans][:checksum]
@@ -61,6 +72,12 @@ template "#{node['jmxtrans']['home']}/json/set1.json" do
   group node['jmxtrans']['user']
   mode  "0755"
   notifies :restart, "service[jmxtrans]"
+  variables(
+            :servers => servers,
+            :graphite_host => node['jmxtrans']['graphite']['host'],
+            :graphite_port => node['jmxtrans']['graphite']['port'],
+            :root_prefix => node['jmxtrans']['root_prefix']
+            )
 end
 
 
