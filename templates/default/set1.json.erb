@@ -31,7 +31,7 @@
      ],
      "resultAlias": "<%= query['result_alias'] %>",
      "obj": "<%= query['obj'] %>",
-     "attr": <%= query['attr'].to_s %> 
+     "attr": [<%= query['attr'].map {|t| "\""+t.to_s+"\""}.join(', ') %>]
     }
     <% end -%>
     ]
