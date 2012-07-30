@@ -42,7 +42,7 @@ default['jmxtrans']['default_queries'] = {
                },
                {  "obj" => "Catalina:type=DataSource,class=javax.sql.DataSource,name=*",
                  "result_alias" => "datasources",
-                 "attr" => [ "NumActive", "NumIdle" ]
+                 "attr" => [ "NumActive", "NumIdle", "NumQueryThreads" ]
                }
               ]
 }
