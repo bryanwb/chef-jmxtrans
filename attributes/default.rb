@@ -14,6 +14,11 @@ default['jmxtrans']['root_prefix'] = "jmx"
 default['jmxtrans']['default_queries'] = {
   'jvm' => [
             {
+              "result_alias" => "memory",
+              "obj" => "java.lang:type=Memory",
+              "attr" => [ "HeapMemoryUsage", "NonHeapMemoryUsage" ]
+            },
+            {
               "result_alias" => "memorypool",
               "obj" => "java.lang:type=MemoryPool,name=*",
               "attr" => [ "Usage" ]
@@ -39,6 +44,11 @@ default['jmxtrans']['default_queries'] = {
                  'obj' => "Catalina:type=ThreadPool,name=*",
                  'result_alias' => "connectors",
                  'attr' => [ "currentThreadCount", "currentThreadsBusy", "" ]
+               },
+               {
+                 'obj' => "Catalina:type=GlobalRequestProcessor,name=*",
+                 'result_alias' => "requests",
+                 'attr' => [ "bytesReceived", "bytesSent", "errorCount", "maxTime", "processingTime", "requestCount" ]
                },
                {  "obj" => "Catalina:type=DataSource,class=javax.sql.DataSource,name=*",
                  "result_alias" => "datasources",
