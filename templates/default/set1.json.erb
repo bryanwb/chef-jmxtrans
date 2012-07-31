@@ -7,7 +7,7 @@
    ,
 <% end -%>
   {
-   "numQueryThreads": 2,
+   "numQueryThreads": <%= server['numQueryThreads'] || 2 %>,
    "host": "<%= server['name'] %>",
    "username": "<%= server['username'] %>",
    "password": "<%= server['password'] %>",
