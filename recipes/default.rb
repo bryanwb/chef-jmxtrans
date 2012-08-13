@@ -7,7 +7,6 @@
 # Apache 2.0 license
 #
 
-include_recipe "logrotate"
 
 if platform_family?("debian")
   init_script_file = "jmxtrans.init.deb.erb"
@@ -81,14 +80,13 @@ template "#{node['jmxtrans']['home']}/json/set1.json" do
             )
 end
 
-
-logrotate_app "jmxtrans" do
-  cookbook "logrotate"
-  path "#{node['jmxtrans']['log_dir']}/*.log"
-  frequency "daily"
-  rotate 7
-  create "644 #{node['jmxtrans']['user']} #{node['jmxtrans']['user']} "
+cron "compress and remove logs rotated by log4j" do
+  minute "0"
+  hour   "0"
+  command  "find #{node['jmxtrans']['log_dir']}/ -name '*.gz' -mtime +30 -exec rm -f '{}' \\; ; \
+  find #{node['jmxtrans']['log_dir']} ! -name '*.gz' -mtime +2 -exec gzip '{}' \\;"
 end
+
 
 # the init script uses this command
 link "/usr/bin/jps"  do
