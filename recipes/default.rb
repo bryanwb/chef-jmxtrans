@@ -80,6 +80,8 @@ template "#{node['jmxtrans']['home']}/json/set1.json" do
             )
 end
 
+package 'gzip'
+
 cron "compress and remove logs rotated by log4j" do
   minute "0"
   hour   "0"
@@ -87,10 +89,9 @@ cron "compress and remove logs rotated by log4j" do
   find #{node['jmxtrans']['log_dir']} ! -name '*.gz' -mtime +2 -exec gzip '{}' \\;"
 end
 
-
-# the init script uses this command
-link "/usr/bin/jps"  do
-  to "#{node['java']['java_home']}/bin/jps"
+execute "set correct jps alternative" do
+  command "update-alternatives jps --auto jps"
+  creates "/usr/bin/jps"
 end
 
 service "jmxtrans" do
