@@ -7,6 +7,7 @@
 # Apache 2.0 license
 #
 
+include_recipe "ark"
 
 if platform_family?("debian")
   init_script_file = "jmxtrans.init.deb.erb"
