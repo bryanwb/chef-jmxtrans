@@ -18,7 +18,7 @@ end
 user node['jmxtrans']['user']
 
 # merge stock jvm queries w/ container specific ones into single array
-servers = node['jmxtrans']['servers']
+servers = node['jmxtrans']['servers'].dup
 servers.each do |server|
   server['queries'] = node['jmxtrans']['default_queries']['jvm']
   case server['type']
