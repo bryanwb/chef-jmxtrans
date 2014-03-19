@@ -15,7 +15,9 @@ elsif platform_family?("rhel")
   init_script_file = "jmxtrans.init.el.erb"
 end
 
-user node['jmxtrans']['user']
+user node['jmxtrans']['user'] do
+  shell "/bin/bash"
+end
 
 # merge stock jvm queries w/ container specific ones into single array
 servers = node['jmxtrans']['servers'].dup
