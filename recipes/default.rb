@@ -22,6 +22,9 @@ end
 # merge stock jvm queries w/ container specific ones into single array
 servers = node['jmxtrans']['servers'].dup
 servers.each do |server|
+  if !server.key?('queries')
+    server['queries'] = []
+  end
   server['queries'] << node['jmxtrans']['default_queries']['jvm']
   case server['type']
   when 'tomcat'
