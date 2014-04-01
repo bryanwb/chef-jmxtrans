@@ -7,4 +7,4 @@ export NEW_SIZE=64
 export CPU_CORES=<%= node['cpu']['total'] %>
 export NEW_RATIO=8
 export LOG_LEVEL=<%= node['jmxtrans']['log_level'] %>
-
+export JMXTRANS_OPTS="-Dsun.rmi.transport.tcp.responseTimeout=<%= node['jmxtrans']['rmi_response_timeout'] %>"
