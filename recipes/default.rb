@@ -18,14 +18,19 @@ end
 user node['jmxtrans']['user']
 
 # merge stock jvm queries w/ container specific ones into single array
-servers = node['jmxtrans']['servers']
+servers = node['jmxtrans']['servers'].dup
 servers.each do |server|
-  server['queries'] = node['jmxtrans']['default_queries']['jvm']
-  case server['type']
-  when 'tomcat'
-    server['queries'] << node['jmxtrans']['default_queries']['tomcat']
-  end
-  server['queries'].flatten!
+ if !server.key?('queries')
+  server['queries'] = []
+ end
+ server['queries'] << node['jmxtrans']['default_queries']['jvm']
+ case server['type']
+ when 'tomcat'
+   server['queries'] << node['jmxtrans']['default_queries']['tomcat']
+ when 'kafka'
+   server['queries'] << node['jmxtrans']['default_queries']['kafka']
+ end
+ server['queries'].flatten!
 end
 
 ark "jmxtrans" do

@@ -11,6 +11,23 @@ default['jmxtrans']['graphite']['host'] = 'graphite'
 default['jmxtrans']['graphite']['port'] = '2003'
 
 default['jmxtrans']['servers'] = []
+#
+# Example servers attribute set-up
+#
+#default['jmxtrans']['servers'] = [
+#	{ "name" => "10.0.100.14",
+#	  "port" => "9999",
+#	  "type" => "kafka"
+#	  "usermame" => "xxxx",
+#	  "password" => "yyyy"
+#	}],
+#	{ "name" => "10.0.100.14",
+#	  "port" => "9999",
+#	  "type" => "tomcat",
+#	  "usermame" => "xxxx",
+#	  "password" => "yyyy"
+#	}
+#]
 default['jmxtrans']['root_prefix'] = "jmx"
 default['jmxtrans']['default_queries'] = {
   'jvm' => [
@@ -55,6 +72,12 @@ default['jmxtrans']['default_queries'] = {
                  "result_alias" => "datasources",
                  "attr" => [ "NumActive", "NumIdle", "NumQueryThreads" ]
                }
-              ]
+              ],
+  'kafka' => [
+	      {
+		'obj' => "\\\"kafka.server\\\":type=\\\"BrokerTopicMetrics\\\",name=*",
+		'result_alias' => "kafka.BrokerTopicMetrics",
+		'attr' => [ "Count", "MeanRate", "OneMinuteRate", "FiveMinuteRate", "FifteenMinuteRate" ]
+	      }
+             ]
 }
-
