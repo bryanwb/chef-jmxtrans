@@ -1,5 +1,9 @@
 # <a name="title"></a> chef-jmxtrans[![Build Status](https://secure.travis-ci.org/bryanwb/chef-jmxtrans.png?branch=master)](http://travis-ci.org/bryanwb/chef-jmxtrans)
 
+*DEPRECATED*
+-------------
+
+JMXTrans is effecively unmaintained and for that reason so is this cookbook. Use the wonderful [Generic JMX plugin](https://collectd.org/wiki/index.php/Plugin:GenericJMX) for collectd instead.
 
 Description
 ===========
