@@ -1,0 +1,21 @@
+AllCops:
+  Exclude:
+    - 'tmp/**/*'
+
+Style/FileName:
+  Exclude:
+    - '**/*'
+
+HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/NumericLiterals:
+  Exclude:
+    - '**/*'
+
+Style/AlignHash:
+  Exclude:
+    - '**/*'
+
+LineLength:
+  Max: 200

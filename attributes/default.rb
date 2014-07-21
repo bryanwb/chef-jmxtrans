@@ -11,50 +11,45 @@ default['jmxtrans']['graphite']['host'] = 'graphite'
 default['jmxtrans']['graphite']['port'] = '2003'
 
 default['jmxtrans']['servers'] = []
-default['jmxtrans']['root_prefix'] = "jmx"
+default['jmxtrans']['root_prefix'] = 'jmx'
 default['jmxtrans']['default_queries'] = {
   'jvm' => [
-            {
-              "result_alias" => "memory",
-              "obj" => "java.lang:type=Memory",
-              "attr" => [ "HeapMemoryUsage", "NonHeapMemoryUsage" ]
-            },
-            {
-              "result_alias" => "memorypool",
-              "obj" => "java.lang:type=MemoryPool,name=*",
-              "attr" => [ "Usage" ]
-            },
-            {
-              "result_alias" => "gc",
-              "obj" => "java.lang:type=GarbageCollector,name=*",
-              "attr" => [ "CollectionCount", "CollectionTime" ]
-            },
-            {
-            "result_alias" => "threads",
-            "obj" => "java.lang:type=Threading",
-            "attr" => [
-                       "DaemonThreadCount",
-                       "PeakThreadCount",
-                       "ThreadCount",
-                       "TotalStartedThreadCount"
-                      ]
-            }
-           ],
+    {
+      'result_alias' => 'memory',
+      'obj' => 'java.lang:type=Memory',
+      'attr' => %w(HeapMemoryUsage NonHeapMemoryUsage)
+    },
+    {
+      'result_alias' => 'memorypool',
+      'obj' => 'java.lang:type=MemoryPool,name=*',
+      'attr' => ['Usage']
+    },
+    {
+      'result_alias' => 'gc',
+      'obj' => 'java.lang:type=GarbageCollector,name=*',
+      'attr' => %w(CollectionCount CollectionTime)
+    },
+    {
+      'result_alias' => 'threads',
+      'obj' => 'java.lang:type=Threading',
+      'attr' => %w(DaemonThreadCount PeakThreadCount ThreadCount TotalStartedThreadCount)
+    }
+  ],
   'tomcat' => [
-               {
-                 'obj' => "Catalina:type=ThreadPool,name=*",
-                 'result_alias' => "connectors",
-                 'attr' => [ "currentThreadCount", "currentThreadsBusy", "" ]
-               },
-               {
-                 'obj' => "Catalina:type=GlobalRequestProcessor,name=*",
-                 'result_alias' => "requests",
-                 'attr' => [ "bytesReceived", "bytesSent", "errorCount", "maxTime", "processingTime", "requestCount" ]
-               },
-               {  "obj" => "Catalina:type=DataSource,class=javax.sql.DataSource,name=*",
-                 "result_alias" => "datasources",
-                 "attr" => [ "NumActive", "NumIdle", "NumQueryThreads" ]
-               }
-              ]
+    {
+      'obj' => 'Catalina:type=ThreadPool,name=*',
+      'result_alias' => 'connectors',
+      'attr' => ['currentThreadCount', 'currentThreadsBusy', '']
+    },
+    {
+      'obj' => 'Catalina:type=GlobalRequestProcessor,name=*',
+      'result_alias' => 'requests',
+      'attr' => %w(bytesReceived bytesSent errorCount maxTime processingTime requestCount)
+    },
+    {
+      'obj' => 'Catalina:type=DataSource,class=javax.sql.DataSource,name=*',
+      'result_alias' => 'datasources',
+      'attr' => %w(NumActive NumIdle NumQueryThreads)
+    }
+  ]
 }
-
