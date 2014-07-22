@@ -15,12 +15,17 @@ elsif platform_family?("rhel")
   init_script_file = "jmxtrans.init.el.erb"
 end
 
-user node['jmxtrans']['user']
+user node['jmxtrans']['user'] do
+  shell "/bin/bash"
+end
 
 # merge stock jvm queries w/ container specific ones into single array
-servers = node['jmxtrans']['servers']
+servers = node['jmxtrans']['servers'].dup
 servers.each do |server|
-  server['queries'] = node['jmxtrans']['default_queries']['jvm']
+  if !server.key?('queries')
+    server['queries'] = []
+  end
+  server['queries'] << node['jmxtrans']['default_queries']['jvm']
   case server['type']
   when 'tomcat'
     server['queries'] << node['jmxtrans']['default_queries']['tomcat']

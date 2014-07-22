@@ -9,6 +9,8 @@ default['jmxtrans']['run_interval'] = '60'
 default['jmxtrans']['log_level'] = 'debug'
 default['jmxtrans']['graphite']['host'] = 'graphite'
 default['jmxtrans']['graphite']['port'] = '2003'
+default['jmxtrans']['rmi_response_timeout'] = 3000
+
 
 default['jmxtrans']['servers'] = []
 default['jmxtrans']['root_prefix'] = "jmx"

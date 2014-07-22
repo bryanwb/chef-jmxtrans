@@ -1,4 +1,4 @@
-# <a name="title"></a> chef-jmxtrans[![Build Status](https://secure.travis-ci.org/bryanwb/chef-jmxtrans.png?branch=master)](http://travis-ci.org/bryanwb/chef-jmxtrans)
+# chef-jmxtrans
 
 *DEPRECATED*
 -------------
