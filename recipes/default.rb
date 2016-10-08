@@ -18,14 +18,19 @@ end
 user node['jmxtrans']['user']
 
 # merge stock jvm queries w/ container specific ones into single array
-servers = node['jmxtrans']['servers']
+servers = node['jmxtrans']['servers'].dup
 servers.each do |server|
-  server['queries'] = node['jmxtrans']['default_queries']['jvm']
-  case server['type']
-  when 'tomcat'
-    server['queries'] << node['jmxtrans']['default_queries']['tomcat']
-  end
-  server['queries'].flatten!
+ if !server.key?('queries')
+  server['queries'] = []
+ end
+ server['queries'] << node['jmxtrans']['default_queries']['jvm']
+ case server['type']
+ when 'tomcat'
+   server['queries'] << node['jmxtrans']['default_queries']['tomcat']
+ when 'kafka'
+   server['queries'] << node['jmxtrans']['default_queries']['kafka']
+ end
+ server['queries'].flatten!
 end
 
 ark "jmxtrans" do
@@ -36,6 +41,13 @@ ark "jmxtrans" do
   prefix_home '/opt'
   owner node['jmxtrans']['user']
   group node['jmxtrans']['user']
+end
+
+bash "chmod of jmxtrans shell script" do
+  code <<-EOH
+   chmod 0755 /opt/jmxtrans/jmxtrans.sh
+  EOH
+  user node['jmxtrans']['user']
 end
 
 template "/etc/init.d/jmxtrans" do
